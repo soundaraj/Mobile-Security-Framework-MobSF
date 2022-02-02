@@ -152,10 +152,10 @@ DATABASES = {
 
 DEBUG = True
 DJANGO_LOG_LEVEL = DEBUG
-ALLOWED_HOSTS = ['127.0.0.1', 'mobsf', '*']
+ALLOWED_HOSTS = ['127.0.0.1', 'mobsf', '*',"d0b8-2409-4072-6383-d6b6-880a-e7f8-cede-5cd4.ngrok.io"]
 # Application definition
 INSTALLED_APPS = (
-    # 'django.contrib.admin',
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -166,20 +166,20 @@ INSTALLED_APPS = (
     'mobsf.MobSF',
     'mobsf.MalwareAnalyzer',
 )
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = (
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+    # 'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-)
-MIDDLEWARE = (
     'mobsf.MobSF.views.api.api_middleware.RestApiAuthMiddleware',
+    
 )
+
 ROOT_URLCONF = 'mobsf.MobSF.urls'
 WSGI_APPLICATION = 'mobsf.MobSF.wsgi.application'
 LANGUAGE_CODE = 'en-us'
@@ -198,9 +198,20 @@ TEMPLATES = [
         'OPTIONS':
             {
                 'debug': True,
+                'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
             },
     },
 ]
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+AUTH_USER_MODEL = 'MobSF.Auth_user'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
 MEDIA_URL = '/uploads/'
 STATIC_URL = '/static/'
@@ -409,3 +420,10 @@ else:
     # if VT_UPLOAD is set to True.
     # ==============================================
     # ^CONFIG-END^: Do not edit this line
+
+
+# EMAIL_USE_TLS = True  
+EMAIL_HOST = 'mail.cyberheals.com'  
+EMAIL_HOST_USER = 'noreply@cyberheals.com'  
+EMAIL_HOST_PASSWORD = 'noreply@123'  
+EMAIL_PORT = 465

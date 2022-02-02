@@ -1,5 +1,6 @@
 from django.urls import re_path
-
+from django.contrib import admin
+from django.urls import path
 from mobsf.DynamicAnalyzer.views.android import dynamic_analyzer as dz
 from mobsf.DynamicAnalyzer.views.android import (
     operations,
@@ -31,6 +32,8 @@ from . import settings
 urlpatterns = [
     # REST API
     # Static Analysis
+    path('admin/', admin.site.urls),
+    
     re_path(r'^api/v1/upload$', api_sz.api_upload),
     re_path(r'^api/v1/scan$', api_sz.api_scan),
     re_path(r'^api/v1/delete_scan$', api_sz.api_delete_scan),
@@ -65,11 +68,19 @@ urlpatterns = [
 if settings.API_ONLY == '0':
     urlpatterns.extend([
         # General
+        path('activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/',  
+                        home.activate, name='activate'), 
+        path('pricing/',home.pricingPage,name="pricing"),
+        path('logout/',home.logout_view,name="logout"),
+        path('activatePlan/<pk>/',home.activatePlan,name="activatePlan"),
+        path('payment_status/', home.payment_status, name = 'payment_status'),
         re_path(r'^$', home.index, name='home'),
         re_path(r'^upload/$', home.Upload.as_view),
         re_path(r'^download/', home.download),
         re_path(r'^download_scan/', home.download_apk),
         re_path(r'^about$', home.about, name='about'),
+        re_path(r'^register$', home.register, name='register'),
+        re_path(r'^login$', home.loginView, name='login'),
         re_path(r'^api_docs$', home.api_docs, name='api_docs'),
         re_path(r'^recent_scans/$', home.recent_scans, name='recent'),
         re_path(r'^delete_scan/$', home.delete_scan),

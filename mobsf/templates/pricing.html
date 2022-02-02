@@ -1,0 +1,48 @@
+{% extends "base/base_layout.html" %}
+ {% block sidebar_option %}
+      sidebar-collapse
+{% endblock %}
+{% block content %}
+
+
+<div class="demo">
+        <div class="container">
+            <div class="row text-center">
+                <h1 class="heading-title">CSS Pricing Table</h1>
+                <p class="heading-title">{{message}}</p>
+            </div>
+
+            <div class="row">
+                {% for plan in plans %}
+                <div class="col-md-4 col-sm-6">
+                    <div class="pricingTable">
+                        <div class="pricingTable-header">
+                            <h3 class="heading">{{plan.name}}</h3>
+                            <span class="subtitle">Lorem ipsum dolor sit amet</span>
+                            <div class="price-value">{{plan.price}}
+                                <span class="currency">$</span>
+                                <span class="month">/mo</span>
+                            </div>
+                        </div>
+                        <ul class="pricing-content">
+                            <li>50GB Disk Space</li>
+                            <li>50 Email Accounts</li>
+                            <li>50GB Monthly Bandwidth</li>
+                            <li>10 Subdomains</li>
+                            <li>15 Domains</li>
+                        </ul>
+                        {% if plan_id == plan.id %}
+                        <a href="#" class="read">active plan<i class="fa fa-angle-right"></i></a>
+                        {% elif request.user.is_active  %}
+                        <a href="/activatePlan/{{plan.id}}" class="read">activate<i class="fa fa-angle-right"></i></a>
+                        {% else %}
+                        <a href="/register" class="read">sign up<i class="fa fa-angle-right"></i></a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
